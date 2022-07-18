@@ -55,8 +55,30 @@ var bubblePizza = /** @class */ (function (_super) {
     }
     return bubblePizza;
 }(Pizza));
-var TWPizzaFactory = /** @class */ (function () {
+var PineApplePizza = /** @class */ (function (_super) {
+    __extends(PineApplePizza, _super);
+    function PineApplePizza() {
+        var _this = _super.call(this) || this;
+        _this.name = "PineApplePizza";
+        return _this;
+    }
+    return PineApplePizza;
+}(Pizza));
+/**
+ * Pizza Factory
+ */
+var PizzaFactory = /** @class */ (function () {
+    function PizzaFactory() {
+    }
+    return PizzaFactory;
+}());
+/**
+ * Tainwan Pizza Factory
+ */
+var TWPizzaFactory = /** @class */ (function (_super) {
+    __extends(TWPizzaFactory, _super);
     function TWPizzaFactory() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     TWPizzaFactory.prototype.createPizza = function (pizzaType) {
         if (pizzaType === "bubblePizza") {
@@ -67,21 +89,47 @@ var TWPizzaFactory = /** @class */ (function () {
             var pizza = new cheesePizza();
             return pizza;
         }
-        return null;
+        return false;
     };
     return TWPizzaFactory;
-}());
+}(PizzaFactory));
+/**
+ * United States Pizza Factory
+ */
+var USPizzaFactory = /** @class */ (function (_super) {
+    __extends(USPizzaFactory, _super);
+    function USPizzaFactory() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    USPizzaFactory.prototype.createPizza = function (pizzaType) {
+        if (pizzaType === "PineApplePizza") {
+            var pizza = new PineApplePizza();
+            return pizza;
+        }
+        else if (pizzaType === "cheesePizza") {
+            var pizza = new cheesePizza();
+            return pizza;
+        }
+        return false;
+    };
+    return USPizzaFactory;
+}(PizzaFactory));
 var PizzaStore = /** @class */ (function () {
     function PizzaStore(addPizzaFactory) {
         this.pizzafactory = addPizzaFactory;
     }
     PizzaStore.prototype.orderPizza = function (type) {
         var newPizza = this.pizzafactory.createPizza(type);
-        newPizza.getName();
-        newPizza.prepare();
-        newPizza.bake();
-        newPizza.cut();
-        newPizza.box();
+        if (newPizza) {
+            newPizza.getName();
+            newPizza.prepare();
+            newPizza.bake();
+            newPizza.cut();
+            newPizza.box();
+        }
+        else {
+            console.log("newPizza doesn't exist!");
+        }
         return newPizza;
     };
     ;
@@ -90,3 +138,6 @@ var PizzaStore = /** @class */ (function () {
 var pizzafactory = new TWPizzaFactory();
 var pizzahot = new PizzaStore(pizzafactory);
 pizzahot.orderPizza("bubblePizza");
+pizzafactory = new USPizzaFactory();
+var McDalond = new PizzaStore(pizzafactory);
+McDalond.orderPizza("PineApplePizza");

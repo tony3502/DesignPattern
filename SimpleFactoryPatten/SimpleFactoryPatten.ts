@@ -29,11 +29,7 @@ class bubblePizza extends Pizza{
         this.name="bubblePizza";
     }
 }
-
-abstract class PizzaFactory{
-    abstract createPizza(pizzaType:string)
-}
-class TWPizzaFactory extends PizzaFactory{
+class TWPizzaFactory{
     createPizza(pizzaType: string): cheesePizza | bubblePizza | null {
         if(pizzaType==="bubblePizza"){
             let pizza=new bubblePizza();
@@ -48,7 +44,7 @@ class TWPizzaFactory extends PizzaFactory{
 }
 
 class PizzaStore{
-    pizzafactory:PizzaFactory;
+    pizzafactory:TWPizzaFactory;
     constructor(addPizzaFactory){
         this.pizzafactory=addPizzaFactory;
     }
